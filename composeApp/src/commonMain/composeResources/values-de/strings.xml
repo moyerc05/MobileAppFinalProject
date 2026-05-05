@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+
+    //Timer Setup Screen
+    <string name="app_name">Blitz Fokus</string>
+    <string name="set_timer_text">Timer Stellen</string>
+    <string name="minutes_placeholder">Minuten</string>
+    <string name="twenty_five_minute_text">25</string>
+    <string name="forty_five_minute_text">45</string>
+    <string name="hour_text">60</string>
+    <string name="invalid_minutes_error">Bitte geben Sie eine gültige Minutenanzahl ein</string>
+    <string name="start_timer_button">Timer Starten</string>
+
+    //Collection Screen
+    <string name="collection_title">Sammlung</string>
+    <string name="mystery_name_placeholder">???</string>
+
+    //Study Timer Screen
+    <string name="study_timer_title">Lern-Timer</string>
+    <string name="start_button">Start</string>
+    <string name="pause_button">Pause</string>
+    <string name="reset_timer_button">Zurücksetzen</string>
+
+    //Statistics Screen
+    <string name="statistics_title">Statistiken</string>
+    <string name="study_history_title">Akademischer Werdegang</string>
+    <string name="reset_all_data_button">Alle Daten zurücksetzen</string>
+    <string name="study_time_chart_title">Studienfortschrittsdiagramm</string>
+    <string name="no_study_data_placeholder">Noch keine Studiendaten.</string>
+    <string-array name="days_of_week_short">
+        <item>Mon</item>
+        <item>Die</item>
+        <item>Mit</item>
+        <item>Don</item>
+        <item>Fre</item>
+        <item>Sam</item>
+        <item>Son</item>
+    </string-array>
+    <string name="session_duration">Duration: %1$d min</string>
+    <string name="milestones_title">Milestones</string>
+    <string name="mon_day">Mon</string>
+    <string name="tues_day">Die</string>
+    <string name="wednes_day">Mit</string>
+    <string name="thurs_day">Don</string>
+    <string name="fri_day">Fre</string>
+    <string name="satur_day">Sam</string>
+    <string name="sun_day">Son</string>
+
+    //End Screen
+    <string name="session_complete_message">Session Complete!</string>
+
+
+
+
+
+</resources>

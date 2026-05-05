@@ -26,6 +26,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import kotlinx.serialization.Serializable
+import flashfocus.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
+
 
 @Serializable
 object TimerSetupScreen
@@ -35,6 +38,10 @@ fun TimerSetupScreen(
     viewModel: AppViewModel,
     onStartTimer: () -> Unit,
 ) {
+    val invalidMinutes = stringResource(Res.string.invalid_minutes_error)
+    val twentyFive = stringResource(Res.string.twenty_five_minute_text)
+    val fortyFive = stringResource(Res.string.forty_five_minute_text)
+    val hourText = stringResource(Res.string.hour_text)
 
     var minutesInput by rememberSaveable { mutableStateOf("") }
     var errorText by remember { mutableStateOf<String?>(null) }
@@ -53,7 +60,7 @@ fun TimerSetupScreen(
         ) {
 
             Text(
-                text = "Set Timer",
+                text = stringResource(Res.string.set_timer_text),
                 style = MaterialTheme.typography.headlineMedium
             )
 
@@ -63,7 +70,7 @@ fun TimerSetupScreen(
                     minutesInput = it
                     errorText = null
                 },
-                label = { Text("Minutes") },
+                label = { Text(stringResource(Res.string.minutes_placeholder)) },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier.fillMaxWidth()
@@ -79,9 +86,9 @@ fun TimerSetupScreen(
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                PresetButton(25) { minutesInput = "25" }
-                PresetButton(45) { minutesInput = "45" }
-                PresetButton(60) { minutesInput = "60" }
+                PresetButton(25) { minutesInput = twentyFive }
+                PresetButton(45) { minutesInput = fortyFive }
+                PresetButton(60) { minutesInput = hourText }
             }
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -91,7 +98,7 @@ fun TimerSetupScreen(
                     val minutes = minutesInput.toIntOrNull()
 
                     if (minutes == null || minutes <= 0) {
-                        errorText = "Please enter a valid number of minutes"
+                        errorText = invalidMinutes
                         return@Button
                     }
 
@@ -101,7 +108,7 @@ fun TimerSetupScreen(
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Start Timer")
+                Text(stringResource(Res.string.start_timer_button))
             }
         }
     }

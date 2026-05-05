@@ -25,6 +25,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.serialization.Serializable
 import kotlinx.datetime.*
+import flashfocus.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.resources.stringArrayResource
 
 // Vico imports
 import com.patrykandpatrick.vico.compose.cartesian.*
@@ -34,6 +37,7 @@ import com.patrykandpatrick.vico.compose.cartesian.layer.*
 import edu.moravian.csci395.flashfocus.data.MilestoneEntity
 import edu.moravian.csci395.flashfocus.data.StudySessionEntity
 import kotlinx.coroutines.launch
+import kotlin.time.Instant
 
 @Serializable
 object StatsScreen
@@ -46,6 +50,7 @@ fun StatsScreen(
     val sessions by viewModel.sessions.collectAsState(initial = emptyList())
     val milestones by viewModel.milestones.collectAsState(initial = emptyList())
 
+
     val totalMinutes by viewModel.totalStudyTime.collectAsState(initial = 0)
 
     LazyColumn(
@@ -56,7 +61,7 @@ fun StatsScreen(
 
         item {
             Text(
-                text = "Statistics",
+                text = stringResource(Res.string.statistics_title),
                 style = MaterialTheme.typography.headlineMedium
             )
 
@@ -74,7 +79,7 @@ fun StatsScreen(
             Spacer(modifier = Modifier.height(24.dp))
 
             Text(
-                text = "Study History",
+                text = stringResource(Res.string.study_history_title),
                 style = MaterialTheme.typography.titleLarge
             )
 
@@ -92,7 +97,7 @@ fun StatsScreen(
                 onClick = onReset,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Reset All Data")
+                Text(stringResource(Res.string.reset_all_data_button))
             }
 
             Spacer(modifier = Modifier.height(32.dp)) // extra bottom padding for scroll comfort
@@ -104,7 +109,7 @@ fun StatsScreen(
 private fun ChartSection(sessions: List<StudySessionEntity>) {
 
     Text(
-        text = "Study Time Chart",
+        text = stringResource(Res.string.study_time_chart_title),
         style = MaterialTheme.typography.titleLarge
     )
 
@@ -117,7 +122,7 @@ private fun ChartSection(sessions: List<StudySessionEntity>) {
                 .height(200.dp),
             contentAlignment = Alignment.Center
         ) {
-            Text("No study data yet.")
+            Text(stringResource(Res.string.no_study_data_placeholder))
         }
         return
     }
@@ -127,8 +132,7 @@ private fun ChartSection(sessions: List<StudySessionEntity>) {
         getDayOfWeekShort(session.startTime)
     }
 
-    val orderedDays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
-
+    val orderedDays = stringArrayResource(Res.array.days_of_week_short)
     val minutesPerDay = orderedDays.map { day ->
         sessionsByDay[day]?.sumOf { it.durationMinutes } ?: 0
     }
@@ -160,19 +164,27 @@ private fun ChartSection(sessions: List<StudySessionEntity>) {
     )
 }
 
+@Composable
 fun getDayOfWeekShort(epochMillis: Long): String {
-    val dateTime = kotlin.time.Instant
+    val dateTime = Instant
         .fromEpochMilliseconds(epochMillis)
         .toLocalDateTime(TimeZone.currentSystemDefault())
+    val monday = stringResource(Res.string.mon_day)
+    val tuesday = stringResource(Res.string.tues_day)
+    val wednesday = stringResource(Res.string.wednes_day)
+    val thursday = stringResource(Res.string.thurs_day)
+    val friday = stringResource(Res.string.fri_day)
+    val saturday = stringResource(Res.string.satur_day)
+    val sunday = stringResource(Res.string.sun_day)
 
     return when (dateTime.dayOfWeek) {
-        DayOfWeek.MONDAY -> "Mon"
-        DayOfWeek.TUESDAY -> "Tue"
-        DayOfWeek.WEDNESDAY -> "Wed"
-        DayOfWeek.THURSDAY -> "Thu"
-        DayOfWeek.FRIDAY -> "Fri"
-        DayOfWeek.SATURDAY -> "Sat"
-        DayOfWeek.SUNDAY -> "Sun"
+        DayOfWeek.MONDAY -> monday
+        DayOfWeek.TUESDAY -> tuesday
+        DayOfWeek.WEDNESDAY -> wednesday
+        DayOfWeek.THURSDAY -> thursday
+        DayOfWeek.FRIDAY -> friday
+        DayOfWeek.SATURDAY -> saturday
+        DayOfWeek.SUNDAY -> sunday
     }
 }
 
@@ -184,7 +196,7 @@ private fun MilestonesSection(
     val milestoneTargets = listOf(60, 300, 600)
 
     Text(
-        text = "Milestones",
+        text = stringResource(Res.string.milestones_title),
         style = MaterialTheme.typography.titleLarge
     )
 
@@ -223,7 +235,7 @@ private fun SessionItem(session: StudySessionEntity) {
             )
 
             Text(
-                text = "Duration: ${session.durationMinutes} min",
+                text = stringResource(Res.string.session_duration, session.durationMinutes),
                 style = MaterialTheme.typography.bodyLarge
             )
         }

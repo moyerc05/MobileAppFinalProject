@@ -20,6 +20,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.serialization.Serializable
+import flashfocus.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Serializable
 object TimerScreen
@@ -50,7 +52,7 @@ fun TimerScreen(
     ) {
 
         Text(
-            text = "Study Timer",
+            text = stringResource(Res.string.study_timer_title),
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 32.dp)
@@ -88,7 +90,7 @@ fun TimerScreen(
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(if (isRunning) "Pause" else "Start")
+            Text(if (isRunning) stringResource(Res.string.pause_button) else stringResource(Res.string.start_button))
         }
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -99,7 +101,7 @@ fun TimerScreen(
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Reset")
+            Text(stringResource(Res.string.reset_timer_button))
         }
     }
 }

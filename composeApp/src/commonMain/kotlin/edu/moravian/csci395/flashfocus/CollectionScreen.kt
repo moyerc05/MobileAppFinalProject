@@ -23,6 +23,9 @@ import edu.moravian.csci395.flashfocus.data.BlobInfo
 import flashfocus.composeapp.generated.resources.Res
 import flashfocus.composeapp.generated.resources.blob_placeholder
 import org.jetbrains.compose.resources.painterResource
+import flashfocus.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
+
 
 @Serializable
 object CollectionScreen
@@ -43,7 +46,7 @@ fun CollectionScreen(
     ) {
 
         Text(
-            text = "Collection",
+            text = stringResource(Res.string.collection_title),
             style = MaterialTheme.typography.headlineMedium
         )
 
@@ -92,7 +95,7 @@ private fun BlobItem(
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = if (isUnlocked) blob.displayName else "???",
+                text = if (isUnlocked) blob.displayName else stringResource(Res.string.mystery_name_placeholder),
                 style = MaterialTheme.typography.bodyMedium
             )
 
