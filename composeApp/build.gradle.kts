@@ -54,6 +54,7 @@ kotlin {
             implementation("androidx.room:room-runtime:2.8.4")
             implementation("androidx.sqlite:sqlite-bundled:2.5.0-alpha13")
             implementation(libs.androidx.sqlite.bundled) // **ADDED** for Room
+            implementation(libs.vico.compose)
 
         }
         commonTest.dependencies {
@@ -91,6 +92,10 @@ android {
 
 dependencies {
     debugImplementation(libs.compose.uiTooling)
+    implementation(libs.vico.compose)
+    implementation(libs.vico.compose.m2)
+    implementation(libs.vico.compose.m3)
+    implementation(libs.vico.views)
 }
 
 dependencies {

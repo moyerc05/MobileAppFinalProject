@@ -25,6 +25,9 @@ interface AppDao {
     @Query("SELECT * FROM MilestoneEntity")
     fun getMilestones(): Flow<List<MilestoneEntity>>
 
+    @Query("SELECT * FROM MilestoneEntity")
+    suspend fun getMilestonesOnce(): List<MilestoneEntity>
+
     // Blobs
     @Insert
     suspend fun insertBlob(blob: BlobEntity)
