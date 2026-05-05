@@ -22,14 +22,16 @@ import flashfocus.composeapp.generated.resources.compose_multiplatform
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun App(database: AppDatabase) {
+
+fun App(database: AppDatabase)
+{
 
     val navController = rememberNavController()
 
     val dao = database.getDao()
     val viewModel: AppViewModel = viewModel { AppViewModel(dao) }
 
-    MaterialTheme {
+    FlashFocusTheme {
         Scaffold(
             topBar = {
                 val curBackStackEntry by navController.currentBackStackEntryAsState()

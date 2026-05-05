@@ -1,5 +1,6 @@
 package edu.moravian.csci395.flashfocus
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,6 +33,7 @@ fun WelcomeScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background) // Uses backgroundLight/Dark
             .padding(24.dp),
         contentAlignment = Alignment.Center
     ) {
@@ -44,7 +46,8 @@ fun WelcomeScreen(
 
             Text(
                 text = "Study App",
-                style = MaterialTheme.typography.headlineLarge
+                style = MaterialTheme.typography.headlineLarge,
+                color = MaterialTheme.colorScheme.primary // Uses primaryLight/Dark
             )
 
             Spacer(modifier = Modifier.height(16.dp))

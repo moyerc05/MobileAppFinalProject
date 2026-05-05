@@ -54,6 +54,7 @@ kotlin {
             implementation("androidx.room:room-runtime:2.8.4")
             implementation("androidx.sqlite:sqlite-bundled:2.5.0-alpha13")
             implementation(libs.androidx.sqlite.bundled) // **ADDED** for Room
+
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
