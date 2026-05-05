@@ -33,6 +33,9 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.room.sqlite.wrapper) // **ADDED** for Room
+            implementation(libs.androidx.material.icons.core)
+            implementation(libs.androidx.material)
+            implementation(libs.material.icons.extended)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -46,9 +49,6 @@ kotlin {
             implementation(libs.kotlinx.serialization.json) // ** ADDED for Navigation **
             implementation(libs.androidx.navigation.compose) // ** ADDED for Navigation **
             implementation(libs.kotlinx.datetime) // ** ADDED **
-            implementation(libs.androidx.material.icons.core)
-            implementation(libs.androidx.material)
-            implementation(libs.material.icons.extended)
             val room_version = "2.8.4"
             implementation("androidx.room:room-runtime:$room_version")
             implementation("androidx.room:room-runtime:2.8.4")
