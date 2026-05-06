@@ -57,7 +57,7 @@ fun EndScreen(
 
     val totalMinutes by viewModel.totalStudyTime.collectAsState(initial = 0)
 
-    val milestoneTargets = listOf(60, 300, 600)
+    val milestoneTargets = listOf(30, 60, 90, 120, 150, 180, 210, 240, 270, 300)
 
     val nextMilestone = milestoneTargets.firstOrNull { totalMinutes < it }
 

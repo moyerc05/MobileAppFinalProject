@@ -210,7 +210,11 @@ private fun MilestonesSection(
     milestones: List<MilestoneEntity>,
     totalMinutes: Int,
 ) {
-    val milestoneTargets = listOf(60, 300, 600)
+    val milestoneTargets = listOf(30, 60, 90, 120, 150, 180, 210, 240, 270, 300)
+
+    val achievedValues = milestones.map { it.value }
+
+    val nextTarget = milestoneTargets.firstOrNull { it !in achievedValues }
 
     Text(
         text = stringResource(Res.string.milestones_title),
@@ -219,21 +223,19 @@ private fun MilestonesSection(
 
     Spacer(modifier = Modifier.height(8.dp))
 
-    milestoneTargets.forEach { target ->
-        val achieved = milestones.any { it.value == target }
-
-        val progress = (totalMinutes.toFloat() / target).coerceAtMost(1f)
+    if (nextTarget != null) {
+        val progress = (totalMinutes.toFloat() / nextTarget).coerceAtMost(1f)
 
         Column(modifier = Modifier.padding(vertical = 4.dp)) {
-            Text(
-                text = "$target min ${if (achieved) "✅" else ""}",
-            )
+            Text(text = "$nextTarget min")
 
             LinearProgressIndicator(
                 progress = { progress },
                 modifier = Modifier.fillMaxWidth(),
             )
         }
+    } else {
+        Text(stringResource(Res.string.milestones_completed))
     }
 }
 

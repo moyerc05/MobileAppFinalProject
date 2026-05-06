@@ -105,7 +105,7 @@ class AppViewModel(
         val totalMinutes = dao.getTotalStudyTime() ?: 0
         val existingMilestones = dao.getMilestonesOnce()
 
-        val milestoneTargets = listOf(60, 300, 600)
+        val milestoneTargets = listOf(30, 60, 90, 120, 150, 180, 210, 240, 270, 300)
 
         val unlockedBlobs = mutableListOf<String>()
 
