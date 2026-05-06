@@ -34,6 +34,7 @@ import com.tweener.alarmee.rememberAlarmeeService
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
 @Serializable
@@ -59,7 +60,7 @@ fun TimerScreen(
         if (timeRemaining == 0 && totalDuration > 0) {
 
             // Calculate exactly 24 hours from the moment the timer finishes
-            val tomorrowTime = kotlin.time.Clock.System.now().plus(10.seconds)
+            val tomorrowTime = kotlin.time.Clock.System.now().plus(24.hours) //Change as necessary for presentation
             val scheduledTime = tomorrowTime.toLocalDateTime(TimeZone.currentSystemDefault())
 
             // 2. Schedule the local notification
@@ -69,7 +70,7 @@ fun TimerScreen(
                     notificationTitle = "📚 Time to focus!",
                     notificationBody = "It's been 24 hours since your last study session. Keep your streak going!",
                     scheduledDateTime = scheduledTime,
-                    repeatInterval = RepeatInterval.Daily, // Will repeat every day until they study again
+                    //repeatInterval = RepeatInterval.Daily, // Will repeat every day until they study again
                     androidNotificationConfiguration = AndroidNotificationConfiguration(
                         priority = AndroidNotificationPriority.DEFAULT,
                         channelId = "studyReminderChannelId", // Matches our Android Config

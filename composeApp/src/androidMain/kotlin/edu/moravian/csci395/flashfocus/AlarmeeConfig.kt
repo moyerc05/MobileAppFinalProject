@@ -1,14 +1,14 @@
 package edu.moravian.csci395.flashfocus
 
-import studyblobs.composeapp.generated.resources.AppIcon
+import android.R
 import android.app.NotificationManager
 import com.tweener.alarmee.channel.AlarmeeNotificationChannel
 import com.tweener.alarmee.configuration.AlarmeeAndroidPlatformConfiguration
 import com.tweener.alarmee.configuration.AlarmeePlatformConfiguration
-import edu.moravian.csci395.flashfocus.R
+
 actual fun createAlarmeePlatformConfiguration(): AlarmeePlatformConfiguration {
     return AlarmeeAndroidPlatformConfiguration(
-        notificationIconResId = R.drawable.app_icon,
+        notificationIconResId = R.drawable.ic_dialog_info, // Replace with your app's notification icon resource (e.g., R.drawable.ic_notification)
         notificationIconColor = androidx.compose.ui.graphics.Color(red = 100, blue =100 , green =100),
         notificationChannels = listOf(
             AlarmeeNotificationChannel(
