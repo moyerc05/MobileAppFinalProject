@@ -39,6 +39,7 @@ import studyblobs.composeapp.generated.resources.you_unlocked
 @Serializable
 object EndScreen
 
+@Suppress("ktlint:standard:function-naming", "ktlint:standard:kdoc")
 /**
  * Displayed after a study session completes.
  * Shows:
@@ -61,11 +62,12 @@ fun EndScreen(
 
     val nextMilestone = milestoneTargets.firstOrNull { totalMinutes < it }
 
-    val progress = if (nextMilestone != null) {
-        (totalMinutes.toFloat() / nextMilestone).coerceAtMost(1f)
-    } else {
-        1f
-    }
+    val progress =
+        if (nextMilestone != null) {
+            (totalMinutes.toFloat() / nextMilestone).coerceAtMost(1f)
+        } else {
+            1f
+        }
 
     val animatedProgress by animateFloatAsState(
         targetValue = progress.coerceIn(0f, 1f),
@@ -75,14 +77,16 @@ fun EndScreen(
 
     val unlockedBlobs = endState.unlockedBlobIds
 
-    val unlockedBlobInfos = unlockedBlobs.mapNotNull { id ->
-        ALL_BLOBS.find { it.id == id }
-    }
+    val unlockedBlobInfos =
+        unlockedBlobs.mapNotNull { id ->
+            ALL_BLOBS.find { it.id == id }
+        }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -147,9 +151,10 @@ fun EndScreen(
 
             LinearProgressIndicator(
                 progress = { animatedProgress },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(12.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .height(12.dp),
             )
 
             Spacer(modifier = Modifier.height(8.dp))

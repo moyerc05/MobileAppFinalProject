@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:no-wildcard-imports", "ktlint:standard:function-naming")
+
 package edu.moravian.csci395.flashfocus
 
 import androidx.compose.foundation.layout.Arrangement
@@ -54,9 +56,10 @@ fun TimerSetupScreen(
     var errorText by remember { mutableStateOf<String?>(null) }
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(24.dp),
         contentAlignment = Alignment.Center,
     ) {
         Column(

@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:import-ordering", "ktlint:standard:no-wildcard-imports")
+
 package edu.moravian.csci395.flashfocus
 
 import androidx.compose.foundation.layout.Arrangement
@@ -23,13 +25,11 @@ import com.tweener.alarmee.model.Alarmee
 import com.tweener.alarmee.model.AndroidNotificationConfiguration
 import com.tweener.alarmee.model.AndroidNotificationPriority
 import com.tweener.alarmee.model.IosNotificationConfiguration
-import com.tweener.alarmee.model.RepeatInterval
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.stringResource
 import studyblobs.composeapp.generated.resources.*
 
 // --- Alarmee & DateTime Imports ---
-import com.tweener.alarmee.configuration.AlarmeePlatformConfiguration
 import com.tweener.alarmee.rememberAlarmeeService
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -40,6 +40,7 @@ import kotlin.time.Duration.Companion.seconds
 @Serializable
 object TimerScreen
 
+@Suppress("ktlint:standard:function-naming", "ktlint:standard:kdoc")
 /**
  * Displays and controls the active study timer.
  * Initializes the local notification when the timer completes.
@@ -62,34 +63,38 @@ fun TimerScreen(
     val totalDuration by viewModel.timerDuration.collectAsState()
 
     // 1. Initialize the Alarmee Service
-    val alarmService = rememberAlarmeeService(
-        platformConfiguration = createAlarmeePlatformConfiguration(),
-    )
+    val alarmService =
+        rememberAlarmeeService(
+            platformConfiguration = createAlarmeePlatformConfiguration(),
+        )
     val localService = alarmService.local
 
     // Navigate and schedule notification when timer hits zero
     LaunchedEffect(timeRemaining) {
         if (timeRemaining == 0 && totalDuration > 0) {
             // Calculate exactly 24 hours from the moment the timer finishes
-            val tomorrowTime = kotlin.time.Clock.System
-                .now()
-                .plus(24.hours) // Change as necessary for presentation
+            val tomorrowTime =
+                kotlin.time.Clock.System
+                    .now()
+                    .plus(10.seconds) // Change as necessary for presentation
             val scheduledTime = tomorrowTime.toLocalDateTime(TimeZone.currentSystemDefault())
 
             // 2. Schedule the local notification
             localService.schedule(
-                alarmee = Alarmee(
-                    uuid = "dailyStudyReminder", // Keeps the ID constant so new sessions reset the 24h clock
-                    notificationTitle = "📚 Time to focus!",
-                    notificationBody = "It's been 24 hours since your last study session. Keep your streak going!",
-                    scheduledDateTime = scheduledTime,
-                    // repeatInterval = RepeatInterval.Daily, // Will repeat every day until they study again
-                    androidNotificationConfiguration = AndroidNotificationConfiguration(
-                        priority = AndroidNotificationPriority.DEFAULT,
-                        channelId = "studyReminderChannelId", // Matches our Android Config
+                alarmee =
+                    Alarmee(
+                        uuid = "dailyStudyReminder", // Keeps the ID constant so new sessions reset the 24h clock
+                        notificationTitle = "📚 Time to focus!",
+                        notificationBody = "It's been 24 hours since your last study session. Keep your streak going!",
+                        scheduledDateTime = scheduledTime,
+                        // repeatInterval = RepeatInterval.Daily, // Will repeat every day until they study again
+                        androidNotificationConfiguration =
+                            AndroidNotificationConfiguration(
+                                priority = AndroidNotificationPriority.DEFAULT,
+                                channelId = "studyReminderChannelId", // Matches our Android Config
+                            ),
+                        iosNotificationConfiguration = IosNotificationConfiguration(),
                     ),
-                    iosNotificationConfiguration = IosNotificationConfiguration(),
-                ),
             )
 
             onTimerFinished()
@@ -97,9 +102,10 @@ fun TimerScreen(
     }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -120,17 +126,19 @@ fun TimerScreen(
 
         // Progress Indicator
         if (totalDuration > 0) {
-            val progress = if (totalDuration == 0) {
-                0f
-            } else {
-                1f - (timeRemaining.toFloat() / totalDuration.toFloat())
-            }
+            val progress =
+                if (totalDuration == 0) {
+                    0f
+                } else {
+                    1f - (timeRemaining.toFloat() / totalDuration.toFloat())
+                }
 
             LinearProgressIndicator(
                 progress = { progress },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 32.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 32.dp),
             )
         }
 

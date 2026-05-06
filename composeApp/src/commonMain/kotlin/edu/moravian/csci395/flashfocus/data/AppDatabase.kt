@@ -26,9 +26,8 @@ expect object AppDatabaseConstructor : RoomDatabaseConstructor<AppDatabase> {
     override fun initialize(): AppDatabase
 }
 
-fun getRoomDatabase(
-    builder: RoomDatabase.Builder<AppDatabase>,
-): AppDatabase = builder
-    .setDriver(BundledSQLiteDriver())
-    .setQueryCoroutineContext(Dispatchers.IO)
-    .build()
+fun getRoomDatabase(builder: RoomDatabase.Builder<AppDatabase>): AppDatabase =
+    builder
+        .setDriver(BundledSQLiteDriver())
+        .setQueryCoroutineContext(Dispatchers.IO)
+        .build()

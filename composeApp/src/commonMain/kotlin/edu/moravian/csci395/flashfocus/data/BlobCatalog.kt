@@ -17,12 +17,13 @@ data class BlobInfo(
     val spawnChance: String,
 )
 
-val ALL_BLOBS = listOf(
-    BlobInfo("pink_common", "Pink Blob", Res.drawable.blob_pink, "Common", "30%"),
-    BlobInfo("green_common", "Green Blob", Res.drawable.blob_green, "Common", "30%"),
-    BlobInfo("orange_common", "Orange Blob", Res.drawable.blob_orange, "Common", "20%"),
-    BlobInfo("blue_rare", "Blue Blob", Res.drawable.blob_blue, "Rare", "10%"),
-    BlobInfo("red_rare", "Red Blob", Res.drawable.blob_red, "Rare", "10%"),
-    BlobInfo("twins_rare", "Twins Blob", Res.drawable.blob_twins, "Rare", "10%"),
-    BlobInfo("gold_epic", "Gold Blob", Res.drawable.blob_gold, "Epic", "5%"),
-)
+val ALL_BLOBS =
+    listOf(
+        BlobInfo("pink_common", "Pink Blob", Res.drawable.blob_pink, "Common", "30%"),
+        BlobInfo("green_common", "Green Blob", Res.drawable.blob_green, "Common", "30%"),
+        BlobInfo("orange_common", "Orange Blob", Res.drawable.blob_orange, "Common", "20%"),
+        BlobInfo("blue_rare", "Blue Blob", Res.drawable.blob_blue, "Rare", "10%"),
+        BlobInfo("red_rare", "Red Blob", Res.drawable.blob_red, "Rare", "10%"),
+        BlobInfo("twins_rare", "Twins Blob", Res.drawable.blob_twins, "Rare", "10%"),
+        BlobInfo("gold_epic", "Gold Blob", Res.drawable.blob_gold, "Epic", "5%"),
+    )

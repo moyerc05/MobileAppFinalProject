@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:no-wildcard-imports")
+
 package edu.moravian.csci395.flashfocus
 
 import androidx.compose.foundation.Image
@@ -28,6 +30,7 @@ import studyblobs.composeapp.generated.resources.blob_placeholder
 @Serializable
 object CollectionScreen
 
+@Suppress("ktlint:standard:function-naming", "ktlint:standard:kdoc")
 /**
  * Displays the user's blob collection.
  * Shows all possible blobs in a grid.
@@ -45,9 +48,10 @@ fun CollectionScreen(
     val unlockedIds = blobs.map { it.blobId }.toSet()
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(16.dp),
     ) {
         Text(
             text = stringResource(Res.string.collection_title),
@@ -72,6 +76,7 @@ fun CollectionScreen(
     }
 }
 
+@Suppress("ktlint:standard:function-naming", "ktlint:standard:kdoc")
 /**
  * Displays an individual blob in the collection grid.
  * @param blob Metadata for the blob.
@@ -87,22 +92,25 @@ private fun BlobItem(
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
         ) {
             Image(
-                painter = painterResource(
-                    if (isUnlocked) {
-                        blob.image
-                    } else {
-                        Res.drawable.blob_placeholder
-                    },
-                ),
+                painter =
+                    painterResource(
+                        if (isUnlocked) {
+                            blob.image
+                        } else {
+                            Res.drawable.blob_placeholder
+                        },
+                    ),
                 contentDescription = blob.displayName,
-                modifier = Modifier
-                    .size(80.dp)
-                    .alpha(if (isUnlocked) 1f else 0.4f),
+                modifier =
+                    Modifier
+                        .size(80.dp)
+                        .alpha(if (isUnlocked) 1f else 0.4f),
             )
 
             Spacer(modifier = Modifier.height(8.dp))

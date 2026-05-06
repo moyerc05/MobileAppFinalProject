@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:no-wildcard-imports")
+
 package edu.moravian.csci395.flashfocus
 
 import androidx.lifecycle.ViewModel
@@ -51,16 +53,17 @@ class AppViewModel(
         _isRunning.value = true
         startTimeMillis = currentTimeMillis()
 
-        timerJob = viewModelScope.launch {
-            while (_timeRemaining.value > 0 && _isRunning.value) {
-                delay(1000)
-                _timeRemaining.value -= 1
-            }
+        timerJob =
+            viewModelScope.launch {
+                while (_timeRemaining.value > 0 && _isRunning.value) {
+                    delay(1000)
+                    _timeRemaining.value -= 1
+                }
 
-            if (_timeRemaining.value <= 0) {
-                onTimerFinished()
+                if (_timeRemaining.value <= 0) {
+                    onTimerFinished()
+                }
             }
-        }
     }
 
     fun pauseTimer() {
@@ -93,10 +96,11 @@ class AppViewModel(
             val unlockedBlobs = checkMilestonesAndReturnBlobs()
 
             // store data for EndScreen
-            _endSessionState.value = EndSessionState(
-                durationMinutes = durationMinutes,
-                unlockedBlobIds = unlockedBlobs,
-            )
+            _endSessionState.value =
+                EndSessionState(
+                    durationMinutes = durationMinutes,
+                    unlockedBlobIds = unlockedBlobs,
+                )
         }
     }
 
@@ -154,15 +158,16 @@ class AppViewModel(
     }
 
     private fun generateRandomBlobId(): String {
-        val weightedBlobs = listOf(
-            "pink_common" to 30,
-            "green_common" to 30,
-            "orange_common" to 20,
-            "blue_rare" to 10,
-            "red_rare" to 10,
-            "twins_rare" to 10,
-            "gold_epic" to 5,
-        )
+        val weightedBlobs =
+            listOf(
+                "pink_common" to 30,
+                "green_common" to 30,
+                "orange_common" to 20,
+                "blue_rare" to 10,
+                "red_rare" to 10,
+                "twins_rare" to 10,
+                "gold_epic" to 5,
+            )
 
         val totalWeight = weightedBlobs.sumOf { it.second }
 

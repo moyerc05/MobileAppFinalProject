@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:no-wildcard-imports")
+
 package edu.moravian.csci395.flashfocus
 
 import androidx.compose.foundation.layout.padding
@@ -20,6 +22,7 @@ import studyblobs.composeapp.generated.resources.Res
 import studyblobs.composeapp.generated.resources.app_name
 import studyblobs.composeapp.generated.resources.back
 
+@Suppress("ktlint:standard:function-naming", "ktlint:standard:kdoc")
 /**
  * Root composable for the Flash Focus application.
  * - Sets up navigation
@@ -30,7 +33,9 @@ import studyblobs.composeapp.generated.resources.back
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun App(database: AppDatabase) {
+fun App(
+    database: AppDatabase,
+) {
     val navController = rememberNavController()
 
     val dao = database.getDao()

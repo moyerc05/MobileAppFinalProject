@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:no-wildcard-imports")
+
 package edu.moravian.csci395.flashfocus
 
 import androidx.compose.foundation.layout.Box
@@ -38,6 +40,7 @@ import kotlin.time.Instant
 @Serializable
 object StatsScreen
 
+@Suppress("ktlint:standard:function-naming", "ktlint:standard:kdoc")
 /**
  * Displays study statistics and history.
  * Shows:
@@ -59,9 +62,10 @@ fun StatsScreen(
     val totalMinutes by viewModel.totalStudyTime.collectAsState(initial = 0)
 
     LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(16.dp),
     ) {
         item {
             Text(
@@ -109,12 +113,15 @@ fun StatsScreen(
     }
 }
 
+@Suppress("ktlint:standard:function-naming", "ktlint:standard:kdoc")
 /**
  * Displays a bar chart of study time grouped by day of week.
  * @param sessions List of study sessions.
  */
 @Composable
-private fun ChartSection(sessions: List<StudySessionEntity>) {
+private fun ChartSection(
+    sessions: List<StudySessionEntity>,
+) {
     Text(
         text = stringResource(Res.string.study_time_chart_title),
         style = MaterialTheme.typography.titleLarge,
@@ -124,9 +131,10 @@ private fun ChartSection(sessions: List<StudySessionEntity>) {
 
     if (sessions.isEmpty()) {
         Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .height(200.dp),
             contentAlignment = Alignment.Center,
         ) {
             Text(stringResource(Res.string.no_study_data_placeholder))
@@ -135,14 +143,16 @@ private fun ChartSection(sessions: List<StudySessionEntity>) {
     }
 
     // Group sessions by day of week
-    val sessionsByDay = sessions.groupBy { session ->
-        getDayOfWeekShort(session.startTime)
-    }
+    val sessionsByDay =
+        sessions.groupBy { session ->
+            getDayOfWeekShort(session.startTime)
+        }
 
     val orderedDays = stringArrayResource(Res.array.days_of_week_short)
-    val minutesPerDay = orderedDays.map { day ->
-        sessionsByDay[day]?.sumOf { it.durationMinutes } ?: 0
-    }
+    val minutesPerDay =
+        orderedDays.map { day ->
+            sessionsByDay[day]?.sumOf { it.durationMinutes } ?: 0
+        }
 
     val modelProducer = remember { CartesianChartModelProducer() }
 
@@ -155,19 +165,22 @@ private fun ChartSection(sessions: List<StudySessionEntity>) {
     }
 
     CartesianChartHost(
-        chart = rememberCartesianChart(
-            rememberColumnCartesianLayer(),
-            startAxis = VerticalAxis.rememberStart(),
-            bottomAxis = HorizontalAxis.rememberBottom(
-                valueFormatter = { _, x, _ ->
-                    orderedDays.getOrNull(x.toInt()) ?: ""
-                },
+        chart =
+            rememberCartesianChart(
+                rememberColumnCartesianLayer(),
+                startAxis = VerticalAxis.rememberStart(),
+                bottomAxis =
+                    HorizontalAxis.rememberBottom(
+                        valueFormatter = { _, x, _ ->
+                            orderedDays.getOrNull(x.toInt()) ?: ""
+                        },
+                    ),
             ),
-        ),
         modelProducer = modelProducer,
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(200.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .height(200.dp),
     )
 }
 
@@ -178,9 +191,10 @@ private fun ChartSection(sessions: List<StudySessionEntity>) {
  */
 @Composable
 fun getDayOfWeekShort(epochMillis: Long): String {
-    val dateTime = Instant
-        .fromEpochMilliseconds(epochMillis)
-        .toLocalDateTime(TimeZone.currentSystemDefault())
+    val dateTime =
+        Instant
+            .fromEpochMilliseconds(epochMillis)
+            .toLocalDateTime(TimeZone.currentSystemDefault())
     val monday = stringResource(Res.string.mon_day)
     val tuesday = stringResource(Res.string.tues_day)
     val wednesday = stringResource(Res.string.wednes_day)
@@ -200,6 +214,7 @@ fun getDayOfWeekShort(epochMillis: Long): String {
     }
 }
 
+@Suppress("ktlint:standard:function-naming", "ktlint:standard:kdoc")
 /**
  * Displays milestone progress bars and completion indicators.
  * @param milestones Achieved milestones.
@@ -239,16 +254,20 @@ private fun MilestonesSection(
     }
 }
 
+@Suppress("ktlint:standard:function-naming", "ktlint:standard:kdoc")
 /**
  * Displays a single study session entry.
  * @param session Session data.
  */
 @Composable
-private fun SessionItem(session: StudySessionEntity) {
+private fun SessionItem(
+    session: StudySessionEntity,
+) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp),
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
             Text(

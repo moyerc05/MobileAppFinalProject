@@ -1,7 +1,9 @@
+@file:Suppress("ktlint:standard:no-wildcard-imports", "ktlint:standard:function-naming")
+
 package edu.moravian.csci395.flashfocus
 
-import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -71,9 +73,10 @@ fun WelcomeScreen(
     var containerSize by remember { mutableStateOf(IntSize.Zero) }
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .onSizeChanged { containerSize = it },
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .onSizeChanged { containerSize = it },
     ) {
         FloatingBlobsLayer(
             blobIds = blobs.map { it.blobId },
@@ -91,10 +94,11 @@ fun WelcomeScreen(
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .verticalScroll(rememberScrollState())
-                        .padding(24.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .verticalScroll(rememberScrollState())
+                            .padding(24.dp),
                 ) {
                     WelcomeTitleSection(isLandscape = isLandscape)
 
@@ -102,9 +106,10 @@ fun WelcomeScreen(
 
                     Button(
                         onClick = onStart,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(56.dp),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .height(56.dp),
                     ) {
                         Text(stringResource(Res.string.start_studying))
                     }
@@ -113,9 +118,10 @@ fun WelcomeScreen(
 
                     OutlinedButton(
                         onClick = onViewCollection,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(50.dp),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .height(50.dp),
                     ) {
                         Text(stringResource(Res.string.my_collection))
                     }
@@ -124,12 +130,14 @@ fun WelcomeScreen(
 
                     OutlinedButton(
                         onClick = onViewStats,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(50.dp),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .height(50.dp),
                     ) {
                         Text(stringResource(Res.string.statistics))
-                    }}
+                    }
+                }
             }
         }
     }
@@ -172,9 +180,10 @@ private fun FloatingBlobsLayer(
     blobIds: List<String>,
     containerSize: IntSize,
 ) {
-    val blobs = remember(blobIds) {
-        blobIds.map { createFloatingBlob(it) }
-    }
+    val blobs =
+        remember(blobIds) {
+            blobIds.map { createFloatingBlob(it) }
+        }
 
     LaunchedEffect(containerSize, blobs) {
         while (true) {
@@ -230,10 +239,11 @@ private class FloatingBlob(
 /**
  * Creates a floating blob with randomized starting position.
  */
-private fun createFloatingBlob(blobId: String): FloatingBlob = FloatingBlob(blobId).apply {
-    x = (0..300).random().toFloat()
-    y = (0..600).random().toFloat()
-}
+private fun createFloatingBlob(blobId: String): FloatingBlob =
+    FloatingBlob(blobId).apply {
+        x = (0..300).random().toFloat()
+        y = (0..600).random().toFloat()
+    }
 
 /**
  * Displays a single floating blob image at its current position.
@@ -245,10 +255,11 @@ private fun FloatingBlob(blob: FloatingBlob) {
     Image(
         painter = painterResource(blobInfo.image),
         contentDescription = null,
-        modifier = Modifier
-            .offset {
-                IntOffset(blob.x.toInt(), blob.y.toInt())
-            }.size(80.dp)
-            .alpha(0.8f),
+        modifier =
+            Modifier
+                .offset {
+                    IntOffset(blob.x.toInt(), blob.y.toInt())
+                }.size(80.dp)
+                .alpha(0.8f),
     )
 }

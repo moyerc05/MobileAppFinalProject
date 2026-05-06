@@ -17,9 +17,10 @@ expect fun currentTimeMillis(): Long
  * "YYYY-MM-DD HH:MM". The date and time are displayed in the user's local time zone.
  */
 fun formatEpochMillis(epochMillis: Long): String {
-    val dateTime = Instant
-        .fromEpochMilliseconds(epochMillis)
-        .toLocalDateTime(TimeZone.currentSystemDefault())
+    val dateTime =
+        Instant
+            .fromEpochMilliseconds(epochMillis)
+            .toLocalDateTime(TimeZone.currentSystemDefault())
     val hour = dateTime.hour.toString().padStart(2, '0')
     val minute = dateTime.minute.toString().padStart(2, '0')
     return "${dateTime.date} $hour:$minute"
