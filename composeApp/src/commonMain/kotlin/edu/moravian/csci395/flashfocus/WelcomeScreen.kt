@@ -1,7 +1,7 @@
 package edu.moravian.csci395.flashfocus
 
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -66,8 +68,6 @@ fun WelcomeScreen(
     onViewCollection: () -> Unit,
 ) {
     val blobs by viewModel.blobs.collectAsState(initial = emptyList())
-
-    // Screen size
     var containerSize by remember { mutableStateOf(IntSize.Zero) }
 
     Box(
@@ -75,74 +75,89 @@ fun WelcomeScreen(
             .fillMaxSize()
             .onSizeChanged { containerSize = it },
     ) {
-        // Floating blobs
         FloatingBlobsLayer(
             blobIds = blobs.map { it.blobId },
             containerSize = containerSize,
         )
 
-        // Foreground UI
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(24.dp),
-            contentAlignment = Alignment.Center,
+        BoxWithConstraints(
+            modifier = Modifier.fillMaxSize(),
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxWidth(),
+            val isLandscape = maxWidth > maxHeight
+
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center,
             ) {
-                Image(
-                    painter = painterResource(Res.drawable.AppIcon),
-                    contentDescription = "Flash Focus Logo",
-                    modifier = Modifier.size(120.dp),
-                )
-
-                Spacer(modifier = Modifier.height(24.dp))
-
-                Text(
-                    text = stringResource(Res.string.welcome_title),
-                    style = MaterialTheme.typography.displaySmall,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary,
-                    textAlign = TextAlign.Center,
-                )
-
-                Spacer(modifier = Modifier.height(24.dp))
-
-                Button(
-                    onClick = onStart,
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(56.dp),
+                        .verticalScroll(rememberScrollState())
+                        .padding(24.dp),
                 ) {
-                    Text(stringResource(Res.string.start_studying))
-                }
+                    WelcomeTitleSection(isLandscape = isLandscape)
 
-                Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(if (isLandscape) 16.dp else 24.dp))
 
-                OutlinedButton(
-                    onClick = onViewCollection,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(50.dp),
-                ) {
-                    Text(stringResource(Res.string.my_collection))
-                }
+                    Button(
+                        onClick = onStart,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(56.dp),
+                    ) {
+                        Text(stringResource(Res.string.start_studying))
+                    }
 
-                Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
 
-                OutlinedButton(
-                    onClick = onViewStats,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(50.dp),
-                ) {
-                    Text(stringResource(Res.string.statistics))
-                }
+                    OutlinedButton(
+                        onClick = onViewCollection,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(50.dp),
+                    ) {
+                        Text(stringResource(Res.string.my_collection))
+                    }
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    OutlinedButton(
+                        onClick = onViewStats,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(50.dp),
+                    ) {
+                        Text(stringResource(Res.string.statistics))
+                    }}
             }
         }
+    }
+}
+
+@Composable
+private fun WelcomeTitleSection(isLandscape: Boolean) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        if (!isLandscape) {
+            Image(
+                painter = painterResource(Res.drawable.AppIcon),
+                contentDescription = "Flash Focus Logo",
+                modifier = Modifier.size(120.dp),
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+        }
+
+        Text(
+            text = stringResource(Res.string.welcome_title),
+            style = MaterialTheme.typography.displaySmall,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary,
+            textAlign = TextAlign.Center,
+        )
     }
 }
 
