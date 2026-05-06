@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class MilestoneEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
-    val type: String, // "TOTAL_TIME", "STREAK", etc.
-    val value: Int,   // e.g. 100 minutes, 7 days
-    val achievedAt: Long
+    val type: String,
+    val value: Int,
+    val achievedAt: Long,
 )

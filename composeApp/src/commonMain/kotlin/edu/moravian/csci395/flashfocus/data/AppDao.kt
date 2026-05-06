@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AppDao {
-
     // Study Sessions
     @Insert
     suspend fun insertSession(session: StudySessionEntity)

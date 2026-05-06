@@ -20,18 +20,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.serialization.Serializable
-import flashfocus.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
+import studyblobs.composeapp.generated.resources.*
 
 @Serializable
 object TimerScreen
 
+/**
+ * Displays and controls the active study timer.
+ * Displays:
+ * Countdown display,
+ * Progress bar,
+ * Start/Pause toggle,
+ * and reset functionality.
+ * Automatically navigates when the timer completes.
+ * @param viewModel Provides timer state and controls.
+ * @param onTimerFinished Called when countdown reaches zero.
+ */
 @Composable
 fun TimerScreen(
     viewModel: AppViewModel,
-    onTimerFinished: () -> Unit
+    onTimerFinished: () -> Unit,
 ) {
-
     val timeRemaining by viewModel.timeRemaining.collectAsState()
     val isRunning by viewModel.isRunning.collectAsState()
     val totalDuration by viewModel.timerDuration.collectAsState()
@@ -48,14 +58,13 @@ fun TimerScreen(
             .fillMaxSize()
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
-
         Text(
             text = stringResource(Res.string.study_timer_title),
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 32.dp)
+            modifier = Modifier.padding(bottom = 32.dp),
         )
 
         // Timer Display
@@ -63,19 +72,22 @@ fun TimerScreen(
             text = formatTime(timeRemaining),
             fontSize = 64.sp,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 32.dp)
+            modifier = Modifier.padding(bottom = 32.dp),
         )
 
         // Progress Indicator
         if (totalDuration > 0) {
-            val progress = if (totalDuration == 0) 0f
-            else 1f - (timeRemaining.toFloat() / totalDuration.toFloat())
+            val progress = if (totalDuration == 0) {
+                0f
+            } else {
+                1f - (timeRemaining.toFloat() / totalDuration.toFloat())
+            }
 
             LinearProgressIndicator(
                 progress = { progress },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 32.dp)
+                    .padding(bottom = 32.dp),
             )
         }
 
@@ -88,7 +100,7 @@ fun TimerScreen(
                     viewModel.startTimer()
                 }
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         ) {
             Text(if (isRunning) stringResource(Res.string.pause_button) else stringResource(Res.string.start_button))
         }
@@ -99,7 +111,7 @@ fun TimerScreen(
             onClick = {
                 viewModel.resetTimer()
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         ) {
             Text(stringResource(Res.string.reset_timer_button))
         }

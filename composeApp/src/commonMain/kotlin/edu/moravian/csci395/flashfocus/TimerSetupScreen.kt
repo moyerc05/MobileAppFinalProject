@@ -26,13 +26,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import kotlinx.serialization.Serializable
-import flashfocus.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
-
+import studyblobs.composeapp.generated.resources.*
 
 @Serializable
 object TimerSetupScreen
 
+/**
+ * Screen for configuring the study timer duration.
+ * Manual minute input.
+ * Preset selections (25, 45, 60 minutes).
+ * Validation before starting timer.
+ * @param viewModel Used to store selected timer duration.
+ * @param onStartTimer Triggered when a valid timer is started.
+ */
 @Composable
 fun TimerSetupScreen(
     viewModel: AppViewModel,
@@ -50,18 +57,16 @@ fun TimerSetupScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(24.dp),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
-
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         ) {
-
             Text(
                 text = stringResource(Res.string.set_timer_text),
-                style = MaterialTheme.typography.headlineMedium
+                style = MaterialTheme.typography.headlineMedium,
             )
 
             OutlinedTextField(
@@ -73,18 +78,18 @@ fun TimerSetupScreen(
                 label = { Text(stringResource(Res.string.minutes_placeholder)) },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
 
             errorText?.let {
                 Text(
                     text = it,
-                    color = MaterialTheme.colorScheme.error
+                    color = MaterialTheme.colorScheme.error,
                 )
             }
 
             Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 PresetButton(25) { minutesInput = twentyFive }
                 PresetButton(45) { minutesInput = fortyFive }
@@ -106,7 +111,7 @@ fun TimerSetupScreen(
 
                     onStartTimer()
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 Text(stringResource(Res.string.start_timer_button))
             }
@@ -114,10 +119,15 @@ fun TimerSetupScreen(
     }
 }
 
+/**
+ * Button for quickly selecting a preset timer duration.
+ * @param minutes The preset value.
+ * @param onClick Callback when selected.
+ */
 @Composable
 private fun PresetButton(
     minutes: Int,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     OutlinedButton(onClick = onClick) {
         Text("$minutes")

@@ -1,6 +1,5 @@
 package edu.moravian.csci395.flashfocus
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -23,46 +22,51 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import kotlinx.serialization.Serializable
-import kotlinx.datetime.*
-import flashfocus.composeapp.generated.resources.*
-import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.resources.stringArrayResource
-
-// Vico imports
 import com.patrykandpatrick.vico.compose.cartesian.*
 import com.patrykandpatrick.vico.compose.cartesian.axis.*
 import com.patrykandpatrick.vico.compose.cartesian.data.*
 import com.patrykandpatrick.vico.compose.cartesian.layer.*
 import edu.moravian.csci395.flashfocus.data.MilestoneEntity
 import edu.moravian.csci395.flashfocus.data.StudySessionEntity
-import kotlinx.coroutines.launch
+import kotlinx.datetime.*
+import kotlinx.serialization.Serializable
+import org.jetbrains.compose.resources.stringArrayResource
+import org.jetbrains.compose.resources.stringResource
+import studyblobs.composeapp.generated.resources.*
 import kotlin.time.Instant
 
 @Serializable
 object StatsScreen
 
+/**
+ * Displays study statistics and history.
+ * Shows:
+ * Weekly study time chart,
+ * Milestone progress tracking,
+ * Session history list,
+ * and option to reset all data.
+ * @param viewModel Provides session and milestone data.
+ * @param onReset Clears all stored data.
+ */
 @Composable
 fun StatsScreen(
     viewModel: AppViewModel,
-    onReset: () -> Unit
+    onReset: () -> Unit,
 ) {
     val sessions by viewModel.sessions.collectAsState(initial = emptyList())
     val milestones by viewModel.milestones.collectAsState(initial = emptyList())
-
 
     val totalMinutes by viewModel.totalStudyTime.collectAsState(initial = 0)
 
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(16.dp),
     ) {
-
         item {
             Text(
                 text = stringResource(Res.string.statistics_title),
-                style = MaterialTheme.typography.headlineMedium
+                style = MaterialTheme.typography.headlineMedium,
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -73,14 +77,14 @@ fun StatsScreen(
 
             MilestonesSection(
                 milestones = milestones,
-                totalMinutes = totalMinutes
+                totalMinutes = totalMinutes,
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
             Text(
                 text = stringResource(Res.string.study_history_title),
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge,
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -95,7 +99,7 @@ fun StatsScreen(
 
             Button(
                 onClick = onReset,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 Text(stringResource(Res.string.reset_all_data_button))
             }
@@ -105,12 +109,15 @@ fun StatsScreen(
     }
 }
 
+/**
+ * Displays a bar chart of study time grouped by day of week.
+ * @param sessions List of study sessions.
+ */
 @Composable
 private fun ChartSection(sessions: List<StudySessionEntity>) {
-
     Text(
         text = stringResource(Res.string.study_time_chart_title),
-        style = MaterialTheme.typography.titleLarge
+        style = MaterialTheme.typography.titleLarge,
     )
 
     Spacer(modifier = Modifier.height(8.dp))
@@ -120,7 +127,7 @@ private fun ChartSection(sessions: List<StudySessionEntity>) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             Text(stringResource(Res.string.no_study_data_placeholder))
         }
@@ -154,16 +161,21 @@ private fun ChartSection(sessions: List<StudySessionEntity>) {
             bottomAxis = HorizontalAxis.rememberBottom(
                 valueFormatter = { _, x, _ ->
                     orderedDays.getOrNull(x.toInt()) ?: ""
-                }
+                },
             ),
         ),
         modelProducer = modelProducer,
         modifier = Modifier
             .fillMaxWidth()
-            .height(200.dp)
+            .height(200.dp),
     )
 }
 
+/**
+ * Converts epoch time to a short day-of-week string.
+ * @param epochMillis Timestamp in milliseconds.
+ * @return Short day string.
+ */
 @Composable
 fun getDayOfWeekShort(epochMillis: Long): String {
     val dateTime = Instant
@@ -188,16 +200,21 @@ fun getDayOfWeekShort(epochMillis: Long): String {
     }
 }
 
+/**
+ * Displays milestone progress bars and completion indicators.
+ * @param milestones Achieved milestones.
+ * @param totalMinutes Total accumulated study time.
+ */
 @Composable
 private fun MilestonesSection(
     milestones: List<MilestoneEntity>,
-    totalMinutes: Int
+    totalMinutes: Int,
 ) {
     val milestoneTargets = listOf(60, 300, 600)
 
     Text(
         text = stringResource(Res.string.milestones_title),
-        style = MaterialTheme.typography.titleLarge
+        style = MaterialTheme.typography.titleLarge,
     )
 
     Spacer(modifier = Modifier.height(8.dp))
@@ -209,34 +226,37 @@ private fun MilestonesSection(
 
         Column(modifier = Modifier.padding(vertical = 4.dp)) {
             Text(
-                text = "${target} min ${if (achieved) "✅" else ""}"
+                text = "$target min ${if (achieved) "✅" else ""}",
             )
 
             LinearProgressIndicator(
                 progress = { progress },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
         }
     }
 }
 
+/**
+ * Displays a single study session entry.
+ * @param session Session data.
+ */
 @Composable
 private fun SessionItem(session: StudySessionEntity) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp)
+            .padding(vertical = 4.dp),
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
-
             Text(
                 text = formatEpochMillis(session.startTime),
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
             )
 
             Text(
                 text = stringResource(Res.string.session_duration, session.durationMinutes),
-                style = MaterialTheme.typography.bodyLarge
+                style = MaterialTheme.typography.bodyLarge,
             )
         }
     }

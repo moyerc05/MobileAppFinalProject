@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
 
+    //App
+    <string name="back">Zurück</string>
+
+    //Welcome Screen
+    <string name="welcome_title">Willkommen bei\nStudy Blobs</string>
+    <string name="start_studying">Lernsitzung starten</string>
+    <string name="my_collection">Meine Sammlung</string>
+    <string name="statistics">Statistiken ansehen</string>
+
     //Timer Setup Screen
-    <string name="app_name">Blitz Fokus</string>
+    <string name="app_name">Lern-Blobs</string>
     <string name="set_timer_text">Timer Stellen</string>
     <string name="minutes_placeholder">Minuten</string>
     <string name="twenty_five_minute_text">25</string>
@@ -20,6 +29,16 @@
     <string name="start_button">Start</string>
     <string name="pause_button">Pause</string>
     <string name="reset_timer_button">Zurücksetzen</string>
+
+    //End Screen
+    <string name="session_complete">Sitzung beendet!</string>
+    <string name="progress_to_milestone">Fortschritt zum nächsten Meilenstein:</string>
+    <string name="milestones_completed">Alle Meilensteine abgeschlossen!</string>
+    <string name="back_to_home">Zurück zur Startseite</string>
+    <string name="minutes">Minuten</string>
+    <string name="you_unlocked">Du hast freigeschaltet </string>
+    <string name="blob">blob(s)!</string>
+    <string name="you_studied_for">Du hast gelernt für </string>
 
     //Statistics Screen
     <string name="statistics_title">Statistiken</string>

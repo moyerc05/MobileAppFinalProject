@@ -1,4 +1,4 @@
-rootProject.name = "FlashFocus"
+rootProject.name = "StudyBlobs"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {

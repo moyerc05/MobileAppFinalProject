@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class BlobEntity(
     @PrimaryKey
-    val blobId: String, // "blue_common_1", etc.
+    val blobId: String,
     val unlockedAt: Long,
-    val isNew: Boolean = true
+    val isNew: Boolean = true,
 )

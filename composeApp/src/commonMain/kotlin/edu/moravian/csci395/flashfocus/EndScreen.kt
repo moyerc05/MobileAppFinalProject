@@ -4,8 +4,8 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,14 +25,33 @@ import androidx.compose.ui.unit.dp
 import edu.moravian.csci395.flashfocus.data.ALL_BLOBS
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+import studyblobs.composeapp.generated.resources.Res
+import studyblobs.composeapp.generated.resources.back_to_home
+import studyblobs.composeapp.generated.resources.blob
+import studyblobs.composeapp.generated.resources.milestones_completed
+import studyblobs.composeapp.generated.resources.minutes
+import studyblobs.composeapp.generated.resources.progress_to_milestone
+import studyblobs.composeapp.generated.resources.session_complete
+import studyblobs.composeapp.generated.resources.you_studied_for
+import studyblobs.composeapp.generated.resources.you_unlocked
 
 @Serializable
 object EndScreen
 
+/**
+ * Displayed after a study session completes.
+ * Shows:
+ * Session duration,
+ * Newly unlocked blobs,
+ * and progress toward next milestone.
+ * @param viewModel Provides session results and progress data.
+ * @param onDone Navigates back to the home screen.
+ */
 @Composable
 fun EndScreen(
     viewModel: AppViewModel,
-    onDone: () -> Unit
+    onDone: () -> Unit,
 ) {
     val endState by viewModel.endSessionState.collectAsState()
 
@@ -48,64 +67,80 @@ fun EndScreen(
         1f
     }
 
-    val unlockedBlob = ALL_BLOBS.find { it.id == endState.unlockedBlobId }
-
     val animatedProgress by animateFloatAsState(
-        targetValue = progress,
-        animationSpec = tween(1000)
+        targetValue = progress.coerceIn(0f, 1f),
+        animationSpec = tween(durationMillis = 800),
+        label = "milestone_progress",
     )
+
+    val unlockedBlobs = endState.unlockedBlobIds
+
+    val unlockedBlobInfos = unlockedBlobs.mapNotNull { id ->
+        ALL_BLOBS.find { it.id == id }
+    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
-
         Text(
-            text = "Session Complete!",
-            style = MaterialTheme.typography.headlineMedium
+            text = stringResource(Res.string.session_complete),
+            style = MaterialTheme.typography.headlineMedium,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = "You studied for ${endState.durationMinutes} minutes",
-            style = MaterialTheme.typography.titleLarge
+            text = stringResource(Res.string.you_studied_for) + "${endState.durationMinutes} " + stringResource(Res.string.minutes),
+            style = MaterialTheme.typography.titleLarge,
         )
 
         Spacer(modifier = Modifier.height(24.dp))
 
         // Blob Unlock Section
-        if (unlockedBlob != null) {
-
+        if (unlockedBlobInfos.isNotEmpty()) {
             Text(
-                text = "You unlocked a blob!",
-                style = MaterialTheme.typography.titleMedium
+                text = stringResource(Res.string.you_unlocked) + "${unlockedBlobInfos.size} " + stringResource(Res.string.blob),
+                style = MaterialTheme.typography.titleMedium,
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
-            Image(
-                painter = painterResource(unlockedBlob.image),
-                contentDescription = unlockedBlob.displayName,
-                modifier = Modifier.size(100.dp)
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+            ) {
+                unlockedBlobInfos.forEach { blob ->
 
-            Spacer(modifier = Modifier.height(8.dp))
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.padding(horizontal = 8.dp),
+                    ) {
+                        Image(
+                            painter = painterResource(blob.image),
+                            contentDescription = blob.displayName,
+                            modifier = Modifier.size(80.dp),
+                        )
 
-            Text(unlockedBlob.displayName)
+                        Text(
+                            text = blob.displayName,
+                            style = MaterialTheme.typography.bodySmall,
+                        )
+                    }
+                }
+            }
         }
 
         Spacer(modifier = Modifier.height(24.dp))
 
         // Milestone Progress
         if (nextMilestone != null) {
-
             Text(
-                text = "Progress to next milestone:",
-                style = MaterialTheme.typography.titleMedium
+                text = stringResource(Res.string.progress_to_milestone),
+                style = MaterialTheme.typography.titleMedium,
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -114,24 +149,23 @@ fun EndScreen(
                 progress = { animatedProgress },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(12.dp)
+                    .height(12.dp),
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            Text("$totalMinutes / $nextMilestone minutes")
-
+            Text("$totalMinutes / $nextMilestone " + stringResource(Res.string.minutes))
         } else {
-            Text("All milestones completed!")
+            Text(stringResource(Res.string.milestones_completed))
         }
 
         Spacer(modifier = Modifier.height(32.dp))
 
         Button(
             onClick = onDone,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         ) {
-            Text("Back to Home")
+            Text(stringResource(Res.string.back_to_home))
         }
     }
 }

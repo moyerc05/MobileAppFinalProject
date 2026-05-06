@@ -3,7 +3,6 @@ package edu.moravian.csci395.flashfocus
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -16,16 +15,22 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import edu.moravian.csci395.flashfocus.data.AppDatabase
-import org.jetbrains.compose.resources.painterResource
-import flashfocus.composeapp.generated.resources.Res
-import flashfocus.composeapp.generated.resources.compose_multiplatform
+import org.jetbrains.compose.resources.stringResource
+import studyblobs.composeapp.generated.resources.Res
+import studyblobs.composeapp.generated.resources.app_name
+import studyblobs.composeapp.generated.resources.back
 
+/**
+ * Root composable for the Flash Focus application.
+ * - Sets up navigation
+ * - Creates and provides the AppViewModel
+ * - Displays the top app bar
+ * - Routes between all screens
+ * @param database The app's database used to create the DAO and ViewModel.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-
-fun App(database: AppDatabase)
-{
-
+fun App(database: AppDatabase) {
     val navController = rememberNavController()
 
     val dao = database.getDao()
@@ -41,16 +46,16 @@ fun App(database: AppDatabase)
                     curDestination?.hasRoute<WelcomeScreen>() == true
 
                 TopAppBar(
-                    title = { Text("Study App") },
+                    title = { Text(stringResource(Res.string.app_name)) },
                     navigationIcon = {
                         if (!onWelcomeScreen) {
                             IconButton(onClick = { navController.navigateUp() }) {
-                                Text("Back")
+                                Text(stringResource(Res.string.back))
                             }
                         }
-                    }
+                    },
                 )
-            }
+            },
         ) { innerPadding ->
 
             NavHost(
@@ -58,13 +63,12 @@ fun App(database: AppDatabase)
                 startDestination = WelcomeScreen,
                 modifier = Modifier.padding(innerPadding),
             ) {
-
                 composable<WelcomeScreen> {
                     WelcomeScreen(
                         viewModel = viewModel,
                         onStart = { navController.navigate(TimerSetupScreen) },
                         onViewStats = { navController.navigate(StatsScreen) },
-                        onViewCollection = { navController.navigate(CollectionScreen) }
+                        onViewCollection = { navController.navigate(CollectionScreen) },
                     )
                 }
 
@@ -73,7 +77,7 @@ fun App(database: AppDatabase)
                         viewModel = viewModel,
                         onStartTimer = {
                             navController.navigate(TimerScreen)
-                        }
+                        },
                     )
                 }
 
@@ -82,7 +86,7 @@ fun App(database: AppDatabase)
                         viewModel = viewModel,
                         onTimerFinished = {
                             navController.navigate(EndScreen)
-                        }
+                        },
                     )
                 }
 
@@ -91,7 +95,7 @@ fun App(database: AppDatabase)
                         viewModel = viewModel,
                         onDone = {
                             navController.popBackStack(WelcomeScreen, inclusive = false)
-                        }
+                        },
                     )
                 }
 
@@ -100,13 +104,13 @@ fun App(database: AppDatabase)
                         viewModel = viewModel,
                         onReset = {
                             viewModel.resetAllData()
-                        }
+                        },
                     )
                 }
 
                 composable<CollectionScreen> {
                     CollectionScreen(
-                        viewModel = viewModel
+                        viewModel = viewModel,
                     )
                 }
             }

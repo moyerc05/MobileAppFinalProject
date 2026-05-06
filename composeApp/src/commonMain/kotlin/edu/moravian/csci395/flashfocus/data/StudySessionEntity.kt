@@ -9,5 +9,5 @@ data class StudySessionEntity(
     val id: Long = 0,
     val startTime: Long,
     val endTime: Long,
-    val durationMinutes: Int
+    val durationMinutes: Int,
 )

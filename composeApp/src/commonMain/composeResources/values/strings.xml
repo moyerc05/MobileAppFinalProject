@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
 
+    //App
+    <string name="back">Back</string>
+
+    //Welcome Screen
+    <string name="welcome_title">Welcome to\nStudy Blobs</string>
+    <string name="start_studying">Start Study Session</string>
+    <string name="my_collection">My Collection</string>
+    <string name="statistics">View Stats</string>
+
     //Timer Setup Screen
-    <string name="app_name">Flash Focus</string>
+    <string name="app_name">Study Blobs</string>
     <string name="set_timer_text">Set Timer</string>
     <string name="minutes_placeholder">Minutes</string>
     <string name="twenty_five_minute_text">25</string>
@@ -20,6 +29,16 @@
     <string name="start_button">Start</string>
     <string name="pause_button">Pause</string>
     <string name="reset_timer_button">Reset</string>
+
+    //End Screen
+    <string name="session_complete">Session Complete!</string>
+    <string name="progress_to_milestone">Progress to next milestone:</string>
+    <string name="milestones_completed">All milestones completed!</string>
+    <string name="back_to_home">Back to Home</string>
+    <string name="minutes">minutes</string>
+    <string name="you_unlocked">You unlocked </string>
+    <string name="blob">blob(s)!</string>
+    <string name="you_studied_for">You studied for </string>
 
     //Statistics Screen
     <string name="statistics_title">Statistics</string>

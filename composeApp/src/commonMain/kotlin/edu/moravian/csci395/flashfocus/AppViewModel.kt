@@ -8,20 +8,19 @@ import edu.moravian.csci395.flashfocus.data.MilestoneEntity
 import edu.moravian.csci395.flashfocus.data.StudySessionEntity
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.flow.*
 
 data class EndSessionState(
     val durationMinutes: Int = 0,
-    val unlockedBlobId: String? = null
+    val unlockedBlobIds: List<String> = emptyList(),
 )
 
 class AppViewModel(
-    private val dao: AppDao
+    private val dao: AppDao,
 ) : ViewModel() {
-
     // Timer State
     private val _timerDuration = MutableStateFlow(0)
     val timerDuration: StateFlow<Int> = _timerDuration
@@ -83,61 +82,62 @@ class AppViewModel(
         val durationMinutes = _timerDuration.value / 60
 
         viewModelScope.launch {
-
             dao.insertSession(
                 StudySessionEntity(
                     startTime = startTimeMillis,
                     endTime = endTime,
-                    durationMinutes = durationMinutes
-                )
+                    durationMinutes = durationMinutes,
+                ),
             )
 
-            val unlockedBlob = checkMilestonesAndReturnBlob()
+            val unlockedBlobs = checkMilestonesAndReturnBlobs()
 
-            // 👇 store data for EndScreen
+            // store data for EndScreen
             _endSessionState.value = EndSessionState(
                 durationMinutes = durationMinutes,
-                unlockedBlobId = unlockedBlob
+                unlockedBlobIds = unlockedBlobs,
             )
         }
     }
 
     // Milestones Logic
-    private suspend fun checkMilestonesAndReturnBlob(): String? {
+    private suspend fun checkMilestonesAndReturnBlobs(): List<String> {
         val totalMinutes = dao.getTotalStudyTime() ?: 0
         val existingMilestones = dao.getMilestonesOnce()
 
         val milestoneTargets = listOf(60, 300, 600)
 
-        for (target in milestoneTargets) {
+        val unlockedBlobs = mutableListOf<String>()
 
+        for (target in milestoneTargets) {
             val alreadyAchieved = existingMilestones.any { it.value == target }
 
             if (totalMinutes >= target && !alreadyAchieved) {
-
+                // Save milestone
                 dao.insertMilestone(
                     MilestoneEntity(
                         type = "TOTAL_TIME",
                         value = target,
-                        achievedAt = currentTimeMillis()
-                    )
+                        achievedAt = currentTimeMillis(),
+                    ),
                 )
 
+                // Unlock blob
                 val blobId = generateRandomBlobId()
 
                 dao.insertBlob(
                     BlobEntity(
                         blobId = blobId,
                         unlockedAt = currentTimeMillis(),
-                        isNew = true
-                    )
+                        isNew = true,
+                    ),
                 )
 
-                return blobId
+                unlockedBlobs.add(blobId)
             }
         }
 
-        return null
+        return unlockedBlobs
     }
 
     // Blob Unlock Logic
@@ -148,13 +148,12 @@ class AppViewModel(
             BlobEntity(
                 blobId = blobId,
                 unlockedAt = currentTimeMillis(),
-                isNew = true
-            )
+                isNew = true,
+            ),
         )
     }
 
     private fun generateRandomBlobId(): String {
-
         val weightedBlobs = listOf(
             "pink_common" to 30,
             "green_common" to 30,

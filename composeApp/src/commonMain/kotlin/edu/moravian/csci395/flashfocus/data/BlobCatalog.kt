@@ -1,20 +1,20 @@
 package edu.moravian.csci395.flashfocus.data
-import flashfocus.composeapp.generated.resources.Res
-import flashfocus.composeapp.generated.resources.blob_blue
-import flashfocus.composeapp.generated.resources.blob_gold
-import flashfocus.composeapp.generated.resources.blob_green
-import flashfocus.composeapp.generated.resources.blob_orange
-import flashfocus.composeapp.generated.resources.blob_pink
-import flashfocus.composeapp.generated.resources.blob_red
-import flashfocus.composeapp.generated.resources.blob_twins
 import org.jetbrains.compose.resources.DrawableResource
+import studyblobs.composeapp.generated.resources.Res
+import studyblobs.composeapp.generated.resources.blob_blue
+import studyblobs.composeapp.generated.resources.blob_gold
+import studyblobs.composeapp.generated.resources.blob_green
+import studyblobs.composeapp.generated.resources.blob_orange
+import studyblobs.composeapp.generated.resources.blob_pink
+import studyblobs.composeapp.generated.resources.blob_red
+import studyblobs.composeapp.generated.resources.blob_twins
 
 data class BlobInfo(
     val id: String,
     val displayName: String,
     val image: DrawableResource,
     val rarityLabel: String,
-    val spawnChance: String
+    val spawnChance: String,
 )
 
 val ALL_BLOBS = listOf(
