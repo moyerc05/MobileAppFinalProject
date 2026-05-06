@@ -1,0 +1,5 @@
+package edu.moravian.csci395.flashfocus
+
+import com.tweener.alarmee.configuration.AlarmeePlatformConfiguration
+
+expect fun createAlarmeePlatformConfiguration(): AlarmeePlatformConfiguration

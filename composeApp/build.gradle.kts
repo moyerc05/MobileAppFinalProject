@@ -55,7 +55,8 @@ kotlin {
             implementation("androidx.sqlite:sqlite-bundled:2.5.0-alpha13")
             implementation(libs.androidx.sqlite.bundled) // **ADDED** for Room
             implementation(libs.vico.compose)
-
+            implementation(libs.alarmee) // Alarmee core for local notifications
+            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.0")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

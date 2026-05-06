@@ -1,5 +1,6 @@
 [versions]
 agp = "8.11.2"
+alarmee = "2.6.0"
 android-compileSdk = "36"
 android-minSdk = "24"
 android-targetSdk = "36"
@@ -25,6 +26,7 @@ ksp = "2.3.6" # **ADDED** for Room database
 vico = "3.1.0"
 
 [libraries]
+alarmee = { module = "io.github.tweener:alarmee", version.ref = "alarmee" }
 androidx-material = { module = "androidx.compose.material:material", version.ref = "material" }
 androidx-material-icons-core = { module = "androidx.compose.material:material-icons-core" }
 koalaplot-core = { module = "io.github.koalaplot:koalaplot-core", version.ref = "koalaplotCore" }

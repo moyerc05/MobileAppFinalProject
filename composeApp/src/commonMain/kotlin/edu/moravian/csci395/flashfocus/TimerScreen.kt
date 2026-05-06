@@ -19,24 +19,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tweener.alarmee.model.Alarmee
+import com.tweener.alarmee.model.AndroidNotificationConfiguration
+import com.tweener.alarmee.model.AndroidNotificationPriority
+import com.tweener.alarmee.model.IosNotificationConfiguration
+import com.tweener.alarmee.model.RepeatInterval
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.stringResource
 import studyblobs.composeapp.generated.resources.*
 
+// --- Alarmee & DateTime Imports ---
+import com.tweener.alarmee.configuration.AlarmeePlatformConfiguration
+import com.tweener.alarmee.rememberAlarmeeService
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.seconds
+
 @Serializable
 object TimerScreen
 
-/**
- * Displays and controls the active study timer.
- * Displays:
- * Countdown display,
- * Progress bar,
- * Start/Pause toggle,
- * and reset functionality.
- * Automatically navigates when the timer completes.
- * @param viewModel Provides timer state and controls.
- * @param onTimerFinished Called when countdown reaches zero.
- */
 @Composable
 fun TimerScreen(
     viewModel: AppViewModel,
@@ -46,9 +48,36 @@ fun TimerScreen(
     val isRunning by viewModel.isRunning.collectAsState()
     val totalDuration by viewModel.timerDuration.collectAsState()
 
-    // Navigate when timer hits zero
+    // 1. Initialize the Alarmee Service
+    val alarmService = rememberAlarmeeService(
+        platformConfiguration = createAlarmeePlatformConfiguration()
+    )
+    val localService = alarmService.local
+
+    // Navigate and schedule notification when timer hits zero
     LaunchedEffect(timeRemaining) {
         if (timeRemaining == 0 && totalDuration > 0) {
+
+            // Calculate exactly 24 hours from the moment the timer finishes
+            val tomorrowTime = kotlin.time.Clock.System.now().plus(10.seconds)
+            val scheduledTime = tomorrowTime.toLocalDateTime(TimeZone.currentSystemDefault())
+
+            // 2. Schedule the local notification
+            localService.schedule(
+                alarmee = Alarmee(
+                    uuid = "dailyStudyReminder", // Keeps the ID constant so new sessions reset the 24h clock
+                    notificationTitle = "📚 Time to focus!",
+                    notificationBody = "It's been 24 hours since your last study session. Keep your streak going!",
+                    scheduledDateTime = scheduledTime,
+                    repeatInterval = RepeatInterval.Daily, // Will repeat every day until they study again
+                    androidNotificationConfiguration = AndroidNotificationConfiguration(
+                        priority = AndroidNotificationPriority.DEFAULT,
+                        channelId = "studyReminderChannelId", // Matches our Android Config
+                    ),
+                    iosNotificationConfiguration = IosNotificationConfiguration(),
+                )
+            )
+
             onTimerFinished()
         }
     }
