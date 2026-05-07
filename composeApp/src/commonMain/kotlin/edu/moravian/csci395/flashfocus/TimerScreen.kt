@@ -76,7 +76,7 @@ fun TimerScreen(
             val tomorrowTime =
                 kotlin.time.Clock.System
                     .now()
-                    .plus(10.seconds) // Change as necessary for presentation
+                    .plus(24.hours) // Change as necessary for presentation
             val scheduledTime = tomorrowTime.toLocalDateTime(TimeZone.currentSystemDefault())
 
             // 2. Schedule the local notification
